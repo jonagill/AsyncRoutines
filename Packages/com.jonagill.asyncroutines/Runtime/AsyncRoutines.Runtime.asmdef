@@ -1,6 +1,8 @@
 {
     "name": "AsyncRoutines.Runtime",
-    "references": [],
+    "references": [
+        "GUID:2a1456357e964aa4a9d946a896206537"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
@@ -8,6 +10,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.jonagill.promises",
+            "expression": "",
+            "define": "PROMISES"
+        }
+    ],
     "noEngineReferences": false
 }
