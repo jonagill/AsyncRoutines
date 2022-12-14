@@ -5,7 +5,7 @@
         float Time { get; }
         float DeltaTime { get; }
         float FixedDeltaTime { get; }
-        float FrameCount { get; }
+        int FrameCount { get; }
         float RealTimeSinceStartup { get; }
     }
 }

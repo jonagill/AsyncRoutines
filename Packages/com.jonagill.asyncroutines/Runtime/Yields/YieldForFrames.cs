@@ -12,24 +12,23 @@ namespace AsyncRoutines
         public float DeferPollUntilTime { get; }
         public float DeferPollUntilRealTime { get; }
 
-        private int framesRemaining;
+        private readonly int deferUntilFrame;
 
         public YieldForFrames(int frames, UpdatePhase updatePhase = UpdatePhase.Update)
         {
             Assert.IsTrue(frames >= 0f, "Cannot yield for negative frames.");
             UpdatePhase = updatePhase;
-            framesRemaining = frames;
+            deferUntilFrame = AsyncYield.TimeProvider.FrameCount + frames;
         }
 
         public bool Poll()
         {
-            framesRemaining--;
-            return framesRemaining <= 0;
+            return AsyncYield.TimeProvider.FrameCount >= deferUntilFrame;
         }
 
         public override string ToString()
         {
-            return $"{nameof(YieldForFrames)} ({UpdatePhase}, {framesRemaining})";
+            return $"{nameof(YieldForFrames)} ({UpdatePhase}, {deferUntilFrame})";
         }
     }
 }

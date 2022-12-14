@@ -36,7 +36,7 @@ namespace AsyncRoutines
         public float Time => (float) EditorApplication.timeSinceStartup;
         public float DeltaTime => deltaTime;
         public float FixedDeltaTime => deltaTime;
-        public float FrameCount => frameCount;
+        public int FrameCount => frameCount;
         public float RealTimeSinceStartup => (float) EditorApplication.timeSinceStartup;
     }
 }
