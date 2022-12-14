@@ -1,0 +1,17 @@
+{
+    "name": "AsyncRoutines.Tests",
+    "references": [
+        "GUID:8b7f7481434f5451c8feddccd7286d27"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
