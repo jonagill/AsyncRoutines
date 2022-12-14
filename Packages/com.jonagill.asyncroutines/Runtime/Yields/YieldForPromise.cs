@@ -4,7 +4,6 @@ using UnityEngine.Assertions;
 
 namespace AsyncRoutines
 {
-#if PROMISES
     /// <summary>
     /// Yield instruction that defers execution until the given Promise is no longer pending
     /// </summary>
@@ -32,5 +31,4 @@ namespace AsyncRoutines
             return $"{nameof(YieldForPromise)} ({UpdatePhase})";
         }
     }
-#endif
 }

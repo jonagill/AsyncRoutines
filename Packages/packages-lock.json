@@ -4,7 +4,9 @@
       "version": "file:com.jonagill.asyncroutines",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.jonagill.promises": ""
+      }
     },
     "com.jonagill.promises": {
       "version": "1.0.0",

@@ -1,0 +1,15 @@
+﻿using Promises;
+
+namespace AsyncRoutines
+{
+    public class AsyncRoutinePromise : CancelablePromise, IAsyncRoutinePromise
+    {
+        public UpdatePhase UpdatePhase { get; set; }
+
+        public float DeferPollUntilTime => 0.0f;
+        public float DeferPollUntilRealTime => 0.0f;
+
+        public bool Poll() => !IsPending;
+        public void Dispose() => Cancel();
+    }
+}

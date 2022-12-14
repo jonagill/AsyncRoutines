@@ -38,12 +38,10 @@ namespace AsyncRoutines
             return new YieldUntil(condition, updatePhase);
         }
 
-#if PROMISES
         public static IYieldInstruction WaitForPromise(Promises.IPromise promise, UpdatePhase updatePhase = UpdatePhase.Update)
         {
             return new YieldForPromise(promise, updatePhase);
         }
-#endif
         
         #region Time Provider
         
@@ -52,7 +50,7 @@ namespace AsyncRoutines
         /// </summary>
         public static ITimeProvider TimeProvider => _timeProvider;
         
-        // Cached reference to the top element of the stack for fast access
+        // Cached reference to the top of the stack for fast access
         private static ITimeProvider _timeProvider;
         private static readonly Stack<ITimeProvider> _timeProviders = new Stack<ITimeProvider>();
 

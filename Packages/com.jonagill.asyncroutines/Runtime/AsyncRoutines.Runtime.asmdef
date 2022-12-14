@@ -10,12 +10,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [
-        {
-            "name": "com.jonagill.promises",
-            "expression": "",
-            "define": "PROMISES"
-        }
-    ],
+    "versionDefines": [],
     "noEngineReferences": false
 }
