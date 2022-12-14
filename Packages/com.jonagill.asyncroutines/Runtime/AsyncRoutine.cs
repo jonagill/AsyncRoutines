@@ -74,13 +74,7 @@ namespace AsyncRoutines
         public IYieldInstruction Step()
         {
             Assert.IsFalse(IsCanceled, "You cannot call Step() on a canceled AsyncRoutine.");
-
-            if (ShouldCancel())
-            {
-                Cancel();
-                return null;
-            }
-
+            
             try
             {
                 // Try to step the coroutine
