@@ -18,20 +18,20 @@ namespace AsyncRoutines
         private bool randomizeStartTime;
         private IAsyncRoutineRunner runner;
         
-        private AsyncUpdateRoutine(
+        public AsyncUpdateRoutine(
             Action<float> updateCallback, 
             UpdatePhase updatePhase,
             IAsyncRoutineRunner runner = null) 
             : this(null, -1f, updateCallback, updatePhase, false, runner) { }
 
-        private AsyncUpdateRoutine(
+        public AsyncUpdateRoutine(
             Behaviour context, 
             Action<float> updateCallback, 
             UpdatePhase updatePhase,
             IAsyncRoutineRunner runner = null) 
             : this(context, -1f, updateCallback, updatePhase, false, runner) { }
         
-        private AsyncUpdateRoutine(
+        public AsyncUpdateRoutine(
             float updateFrequency,
             Action<float> updateCallback, 
             UpdatePhase updatePhase,
@@ -39,7 +39,7 @@ namespace AsyncRoutines
             IAsyncRoutineRunner runner = null)
             : this(null, updateFrequency, updateCallback, updatePhase, randomizeStartTime, runner) { }
 
-        private AsyncUpdateRoutine(
+        public AsyncUpdateRoutine(
             Behaviour context,
             float targetRateHz,
             Action<float> updateCallback, 
