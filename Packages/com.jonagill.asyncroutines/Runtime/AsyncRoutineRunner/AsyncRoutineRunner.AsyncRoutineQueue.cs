@@ -290,29 +290,29 @@ namespace AsyncRoutines
                     }
 
                     ModificationType requiredModification;
-                    if (updateType == UpdateType.RemoveOnly)
+                    // Check if this routine has expired and should be canceled and removed
+                    // We are intentionally doing this after checking deferral so that we don't
+                    // have to do an expensive lifetime check for every deferred routine ever frame
+                    if (routine.ShouldCancel())
                     {
-                        // Check if this routine has expired and should be canceled and removed
-                        // We are intentionally doing this after checking deferral so that we don't
-                        // have to do an expensive lifetime check for every deferred routine ever frame
-                        if (routine.ShouldCancel())
-                        {
-                            routine.Cancel();
-                            requiredModification = ModificationType.Remove;
-                        }
-                        else
-                        {
-                            requiredModification = ModificationType.None;
-                        }
+                        routine.Cancel();
+                        requiredModification = ModificationType.Remove;                        
+                    }
+                    else if (updateType == UpdateType.Full)
+                    {
+                        // We're not canceled -- step the routine
+                        requiredModification = StepRoutine(routine);
                     }
                     else
                     {
-                        requiredModification = StepRoutine(routine);
+                        // We're not canceled but we're not allowed to step
+                        requiredModification = ModificationType.None;
                     }
 
                     if (requiredModification == ModificationType.Remove ||
                         requiredModification == ModificationType.Reinsert)
                     {
+                        // Remove the routine from its current position in the buffer
                         routineBuffer[i] = null;
                         emptyIndices.Push(i);
                     }
@@ -327,7 +327,7 @@ namespace AsyncRoutines
             private ModificationType StepRoutine(AsyncRoutine routine)
             {
                 Assert.IsNotNull(routine);
-                
+
                 var currentYield = routine.CurrentYieldInstruction;
                 Assert.IsNotNull(currentYield);
                 

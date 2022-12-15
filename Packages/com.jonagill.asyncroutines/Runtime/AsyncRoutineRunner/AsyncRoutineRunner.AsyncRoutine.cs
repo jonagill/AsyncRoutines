@@ -23,7 +23,7 @@ namespace AsyncRoutines
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             public string Name { get; private set; }
 #else
-        public string Name => RELEASE_NAME;
+            public string Name => RELEASE_NAME;
 #endif
             public bool IsCanceled { get; private set; }
 
@@ -101,7 +101,11 @@ namespace AsyncRoutines
                 {
                     // The coroutine threw an exception.
                     // Log the exception and report the the coroutine failed to complete.
-                    Debug.LogException(e);
+                    if (!UnitTestsRunning)
+                    {
+                        Debug.LogException(e);
+                    }
+                    
                     routinePromise.Throw(e);
 
                     return null;

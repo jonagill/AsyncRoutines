@@ -1,7 +1,8 @@
 {
     "name": "AsyncRoutines.Tests",
     "references": [
-        "GUID:8b7f7481434f5451c8feddccd7286d27"
+        "GUID:8b7f7481434f5451c8feddccd7286d27",
+        "GUID:2a1456357e964aa4a9d946a896206537"
     ],
     "includePlatforms": [
         "Editor"

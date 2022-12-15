@@ -9,6 +9,8 @@ namespace AsyncRoutines
 {
     public partial class AsyncRoutineRunner : IAsyncRoutineRunner
     {
+        internal static bool UnitTestsRunning = false;
+        
         public static readonly UpdatePhase[] UpdatePhases = (UpdatePhase[]) Enum.GetValues(typeof(UpdatePhase));
         public static readonly AsyncRoutineRunner DefaultRunner = new AsyncRoutineRunner();
 

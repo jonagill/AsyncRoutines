@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Assertions;
+
+[assembly: InternalsVisibleTo("AsyncRoutines.Tests")]
 
 namespace AsyncRoutines
 {
