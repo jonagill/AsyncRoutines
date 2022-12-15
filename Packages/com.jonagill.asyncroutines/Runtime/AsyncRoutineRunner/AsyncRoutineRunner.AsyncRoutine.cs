@@ -8,14 +8,17 @@ namespace AsyncRoutines
 {
     public partial class AsyncRoutineRunner
     {
-        public interface IReadOnlyAsyncRoutine
+        public interface IAsyncRoutine
         {
             public string Name { get; }
             public Behaviour Context { get; }
             public IYieldInstruction CurrentYieldInstruction { get; }
+            public IAsyncRoutinePromise Promise { get; }
+            
+            public void Cancel();
         }
         
-        private sealed class AsyncRoutine : IReadOnlyAsyncRoutine
+        private sealed class AsyncRoutine : IAsyncRoutine
         {
             private const string RELEASE_NAME = "AsyncRoutine";
             private static readonly IYieldInstruction DefaultNullYield = AsyncYield.NextUpdate;

@@ -407,7 +407,7 @@ namespace AsyncRoutines
             
                         
 #if UNITY_EDITOR
-            public IEnumerable<IReadOnlyAsyncRoutine> EditorGetRoutines(SubQueueType subQueue)
+            public IEnumerable<IAsyncRoutine> EditorGetRoutines(SubQueueType subQueue)
             {
                 GetBuffersForSubQueue(subQueue, out var routineBuffer, out _);
                 return routineBuffer.Where(r => r != null);

@@ -168,9 +168,9 @@ namespace AsyncRoutines
         
         public void EditorGetRoutines(
             UpdatePhase updatePhase, 
-            out IEnumerable<IReadOnlyAsyncRoutine> nonDeferredRoutines, 
-            out IEnumerable<IReadOnlyAsyncRoutine> deferredRoutines, 
-            out IEnumerable<IReadOnlyAsyncRoutine> deferredRealTimeRoutines)
+            out IEnumerable<IAsyncRoutine> nonDeferredRoutines, 
+            out IEnumerable<IAsyncRoutine> deferredRoutines, 
+            out IEnumerable<IAsyncRoutine> deferredRealTimeRoutines)
         {
             var queue = GetQueueForPhase(updatePhase);
             nonDeferredRoutines = queue.EditorGetRoutines(AsyncRoutineQueue.SubQueueType.NonDeferred);
