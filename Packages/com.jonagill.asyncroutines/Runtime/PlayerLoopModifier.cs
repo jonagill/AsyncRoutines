@@ -25,6 +25,34 @@ public static class CustomUpdatePhases
         }
     }
 
+    public static class PreRenderPhase
+    {
+        public static event Action OnPreRender;
+
+        public static PlayerLoopSystem CreateSystem()
+        {
+            return new PlayerLoopSystem()
+            {
+                type = typeof(PreRenderPhase),
+                updateDelegate = () => OnPreRender?.Invoke()
+            };
+        }
+    }
+    
+    public static class EndOfFramePhase
+    {
+        public static event Action OnEndOfFrame;
+
+        public static PlayerLoopSystem CreateSystem()
+        {
+            return new PlayerLoopSystem()
+            {
+                type = typeof(EndOfFramePhase),
+                updateDelegate = () => OnEndOfFrame?.Invoke()
+            };
+        }
+    }
+    
     private static bool playerLoopModified = false;
     
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -37,10 +65,13 @@ public static class CustomUpdatePhases
         
         var playerLoop = PlayerLoop.GetCurrentPlayerLoop();
         AppendSystem<Update.ScriptRunBehaviourUpdate>(ref playerLoop, PostUpdatePhase.CreateSystem());
-        
+        AppendSystem<PostLateUpdate>(ref playerLoop, PreRenderPhase.CreateSystem());
+        AppendSystem<PostLateUpdate.TriggerEndOfFrameCallbacks>(ref playerLoop, EndOfFramePhase.CreateSystem());
+
         PlayerLoop.SetPlayerLoop(playerLoop);
         playerLoopModified = true;
 
+        // Uncomment to lop the modified player loop at startup
         LogPlayerLoop(playerLoop);
     }
     
@@ -49,7 +80,7 @@ public static class CustomUpdatePhases
         if (system.type == typeof(T))
         {
             var modifiableList = system.subSystemList?.ToList() ?? new List<PlayerLoopSystem>();
-            modifiableList.Add( newSystem );
+            modifiableList.Insert( 0, newSystem );
             system.subSystemList = modifiableList.ToArray();
             
             return true;

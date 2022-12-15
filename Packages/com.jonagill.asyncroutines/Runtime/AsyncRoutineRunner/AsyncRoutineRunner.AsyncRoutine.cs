@@ -14,6 +14,7 @@ namespace AsyncRoutines
 
             public IEnumerator<IYieldInstruction> Coroutine { get; private set; }
             public IYieldInstruction CurrentYieldInstruction { get; private set; }
+            public IAsyncRoutinePromise Promise => routinePromise;
 
             private readonly AsyncRoutinePromise routinePromise;
             private readonly Behaviour context;
@@ -47,15 +48,13 @@ namespace AsyncRoutines
                 }
             }
 
-            public AsyncRoutine(Behaviour context, IEnumerator<IYieldInstruction> coroutine,
-                AsyncRoutinePromise routinePromise)
+            public AsyncRoutine(Behaviour context, IEnumerator<IYieldInstruction> coroutine)
             {
                 Assert.IsNotNull(coroutine);
-                Assert.IsNotNull(routinePromise);
 
                 this.Coroutine = coroutine;
                 this.CurrentYieldInstruction = null;
-                this.routinePromise = routinePromise;
+                this.routinePromise = new AsyncRoutinePromise();
                 this.context = context;
                 this.hasContext = context != null;
 

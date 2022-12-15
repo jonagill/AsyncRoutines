@@ -149,8 +149,8 @@ namespace AsyncRoutines
                 {
                     Profiler.BeginSample(profilerStepTag);
                     UpdateRoutines(SubQueueType.NonDeferred, UpdateType.Full);
-                    UpdateRoutines(SubQueueType.NonDeferred, UpdateType.Full, AsyncYield.TimeProvider.Time);
-                    UpdateRoutines(SubQueueType.NonDeferred, UpdateType.Full, AsyncYield.TimeProvider.RealTimeSinceStartup);
+                    UpdateRoutines(SubQueueType.Deferred, UpdateType.Full, AsyncYield.TimeProvider.Time);
+                    UpdateRoutines(SubQueueType.DeferredRealTime, UpdateType.Full, AsyncYield.TimeProvider.RealTimeSinceStartup);
                     Profiler.EndSample();
                 }
                 catch (Exception e)
@@ -160,6 +160,26 @@ namespace AsyncRoutines
                 finally
                 {
                     isUpdating = false;
+                }
+            }
+            
+            public void ClearExpiredCoroutines()
+            {
+                UpdateRoutines(SubQueueType.NonDeferred, UpdateType.RemoveOnly);
+                UpdateRoutines(SubQueueType.Deferred, UpdateType.RemoveOnly);
+                UpdateRoutines(SubQueueType.DeferredRealTime, UpdateType.RemoveOnly);
+                
+                foreach (var queue in QueuedInsertBuffers)
+                {
+                    var routines = queue.Routines;
+                    for (var i = routines.Count-1; i >= 0; i--)
+                    {
+                        if (routines[i].ShouldCancel())
+                        {
+                            routines[i].Cancel();
+                            routines.RemoveAt(i);
+                        }
+                    }
                 }
             }
 
