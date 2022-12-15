@@ -9,8 +9,8 @@ namespace AsyncRoutines
 {
     public partial class AsyncRoutineRunner : IAsyncRoutineRunner
     {
-        public static readonly AsyncRoutineRunner DefaultRunner = new AsyncRoutineRunner();
         private static readonly UpdatePhase[] UpdatePhases = (UpdatePhase[]) Enum.GetValues(typeof(UpdatePhase));
+        public static readonly AsyncRoutineRunner DefaultRunner = new AsyncRoutineRunner();
 
         private AsyncRoutineQueue[] queues;
         private bool isDisposed;
@@ -139,7 +139,11 @@ namespace AsyncRoutines
 #if UNITY_EDITOR
         private void OnEditorPlayModeStateChanged(PlayModeStateChange change)
         {
-            ClearAllRoutines();
+            if (change == PlayModeStateChange.ExitingEditMode || 
+                change == PlayModeStateChange.ExitingPlayMode)
+            {
+                ClearAllRoutines();
+            } 
         }        
 #endif
         

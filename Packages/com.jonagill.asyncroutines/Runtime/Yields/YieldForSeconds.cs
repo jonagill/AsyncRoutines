@@ -19,13 +19,13 @@ namespace AsyncRoutines
             
             if (useRealTime)
             {
-                DeferPollUntilTime = AsyncYield.TimeProvider.Time + seconds;
-                DeferPollUntilRealTime = 0f;
+                DeferPollUntilTime = 0f;
+                DeferPollUntilRealTime = AsyncYield.TimeProvider.RealTimeSinceStartup + seconds;
             }
             else
             {
-                DeferPollUntilTime = 0f;
-                DeferPollUntilRealTime = AsyncYield.TimeProvider.RealTimeSinceStartup + seconds;
+                DeferPollUntilTime = AsyncYield.TimeProvider.Time + seconds;
+                DeferPollUntilRealTime = 0f;
             }
         }
 

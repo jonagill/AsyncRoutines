@@ -3,10 +3,10 @@
     public enum UpdatePhase
     {
         Update = 0,
-        PostUpdate = 100,
-        FixedUpdate = 200,
-        LateUpdate = 300,
-        PreRender = 400,
-        EndOfFrame = 999,
+        PostUpdate = 1,
+        FixedUpdate = 2,
+        LateUpdate = 3,
+        PreRender = 4,
+        EndOfFrame = 5,
     }
 }

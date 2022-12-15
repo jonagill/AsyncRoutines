@@ -72,7 +72,7 @@ public static class CustomUpdatePhases
         playerLoopModified = true;
 
         // Uncomment to lop the modified player loop at startup
-        LogPlayerLoop(playerLoop);
+        //LogPlayerLoop(playerLoop);
     }
     
     private static bool AppendSystem<T>(ref PlayerLoopSystem system, PlayerLoopSystem newSystem)
