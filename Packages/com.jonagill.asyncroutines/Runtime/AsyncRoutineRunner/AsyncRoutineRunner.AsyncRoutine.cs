@@ -11,7 +11,7 @@ namespace AsyncRoutines
         {
             private const string RELEASE_NAME = "AsyncRoutine";
             private static readonly IYieldInstruction DefaultNullYield = AsyncYield.NextUpdate;
-
+            
             public IEnumerator<IYieldInstruction> Coroutine { get; private set; }
             public IYieldInstruction CurrentYieldInstruction { get; private set; }
             public IAsyncRoutinePromise Promise => routinePromise;

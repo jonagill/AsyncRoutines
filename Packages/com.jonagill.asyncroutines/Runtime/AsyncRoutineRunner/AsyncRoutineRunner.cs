@@ -9,12 +9,14 @@ namespace AsyncRoutines
 {
     public partial class AsyncRoutineRunner : IAsyncRoutineRunner
     {
-        private static readonly UpdatePhase[] UpdatePhases = (UpdatePhase[]) Enum.GetValues(typeof(UpdatePhase));
+        public static readonly UpdatePhase[] UpdatePhases = (UpdatePhase[]) Enum.GetValues(typeof(UpdatePhase));
         public static readonly AsyncRoutineRunner DefaultRunner = new AsyncRoutineRunner();
 
         private AsyncRoutineQueue[] queues;
         private bool isDisposed;
         
+        public event Action OnRoutineStarted;
+
         public int Count
         {
             get
@@ -78,6 +80,8 @@ namespace AsyncRoutines
             {
                 GetQueueForPhase(firstYield.UpdatePhase).InsertRoutine(asyncRoutine);
             }
+            
+            OnRoutineStarted?.Invoke();
 
             return asyncRoutine.Promise;
         }

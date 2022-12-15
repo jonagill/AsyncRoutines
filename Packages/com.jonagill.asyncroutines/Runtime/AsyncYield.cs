@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine.Assertions;
 
 namespace AsyncRoutines
 {
@@ -8,7 +9,8 @@ namespace AsyncRoutines
         static AsyncYield()
         {
             // Always default to the play mode time provider being available
-            PushTimeProvider(new PlayModeTimeProvider());
+            defaultTimeProvider = new PlayModeTimeProvider();
+            PushTimeProvider(defaultTimeProvider);
         }
         
         public static IYieldInstruction NextUpdate { get; } = new YieldNextFrame(UpdatePhase.Update);
@@ -69,27 +71,29 @@ namespace AsyncRoutines
         /// <summary>
         /// The current time provider used by yield instructions.
         /// </summary>
-        public static ITimeProvider TimeProvider => _timeProvider;
-        
-        // Cached reference to the top of the stack for fast access
-        private static ITimeProvider _timeProvider;
-        private static readonly Stack<ITimeProvider> _timeProviders = new Stack<ITimeProvider>();
+        public static ITimeProvider TimeProvider => activeTimeProvider;
+
+        private static ITimeProvider defaultTimeProvider;
+        private static ITimeProvider activeTimeProvider;
+        private static readonly List<ITimeProvider> timeProviderStack = new List<ITimeProvider>();
 
         /// <summary>
         /// Override the time provider used by yield instructions.
         /// </summary>
         public static void PushTimeProvider(ITimeProvider timeProvider)
         {
-            _timeProviders.Push(timeProvider);
-            _timeProvider = timeProvider;
+            Assert.IsNotNull(timeProvider);
+            timeProviderStack.Add(timeProvider);
+            activeTimeProvider = timeProvider;
         }
         
-        public static void PopTimeProvider()
+        public static void RemoveTimeProvider(ITimeProvider timeProvider)
         {
-            if (_timeProviders.Count > 1)
+            Assert.AreNotEqual(defaultTimeProvider, timeProvider);
+            if (timeProviderStack.Count > 1)
             {
-                _timeProviders.Pop();
-                _timeProvider = _timeProviders.Peek();
+                timeProviderStack.Remove(timeProvider);
+                activeTimeProvider = timeProviderStack[timeProviderStack.Count - 1];
             }
         }
 
