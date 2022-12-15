@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Promises;
 using UnityEngine;
@@ -201,7 +202,7 @@ namespace AsyncRoutines
                 
                 isDisposed = true;
             }
-
+            
             private void QueueInsert(IList<AsyncRoutine> routines)
             {
                 for (var i = 0; i < routines.Count; i++)
@@ -403,6 +404,15 @@ namespace AsyncRoutines
                         throw new NotImplementedException($"Unexpected subqueue type {subQueue}");
                 }
             }
+            
+                        
+#if UNITY_EDITOR
+            public IEnumerable<IReadOnlyAsyncRoutine> EditorGetRoutines(SubQueueType subQueue)
+            {
+                GetBuffersForSubQueue(subQueue, out var routineBuffer, out _);
+                return routineBuffer.Where(r => r != null);
+            }
+#endif
         }
     }
 }

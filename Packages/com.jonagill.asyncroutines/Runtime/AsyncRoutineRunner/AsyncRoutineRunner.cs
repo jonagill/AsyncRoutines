@@ -158,6 +158,26 @@ namespace AsyncRoutines
         {
             return queues[(int)updatePhase];
         }
+        
+                
+#if UNITY_EDITOR
+        public int EditorGetCount(UpdatePhase updatePhase)
+        {
+            return GetQueueForPhase(updatePhase).Count;
+        } 
+        
+        public void EditorGetRoutines(
+            UpdatePhase updatePhase, 
+            out IEnumerable<IReadOnlyAsyncRoutine> nonDeferredRoutines, 
+            out IEnumerable<IReadOnlyAsyncRoutine> deferredRoutines, 
+            out IEnumerable<IReadOnlyAsyncRoutine> deferredRealTimeRoutines)
+        {
+            var queue = GetQueueForPhase(updatePhase);
+            nonDeferredRoutines = queue.EditorGetRoutines(AsyncRoutineQueue.SubQueueType.NonDeferred);
+            deferredRoutines = queue.EditorGetRoutines(AsyncRoutineQueue.SubQueueType.Deferred);
+            deferredRealTimeRoutines = queue.EditorGetRoutines(AsyncRoutineQueue.SubQueueType.DeferredRealTime);
+        } 
+#endif
     }
 }
 

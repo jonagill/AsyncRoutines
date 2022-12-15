@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Promises;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -7,7 +8,14 @@ namespace AsyncRoutines
 {
     public partial class AsyncRoutineRunner
     {
-        private sealed class AsyncRoutine
+        public interface IReadOnlyAsyncRoutine
+        {
+            public string Name { get; }
+            public Behaviour Context { get; }
+            public IYieldInstruction CurrentYieldInstruction { get; }
+        }
+        
+        private sealed class AsyncRoutine : IReadOnlyAsyncRoutine
         {
             private const string RELEASE_NAME = "AsyncRoutine";
             private static readonly IYieldInstruction DefaultNullYield = AsyncYield.NextUpdate;
@@ -15,6 +23,7 @@ namespace AsyncRoutines
             public IEnumerator<IYieldInstruction> Coroutine { get; private set; }
             public IYieldInstruction CurrentYieldInstruction { get; private set; }
             public IAsyncRoutinePromise Promise => routinePromise;
+            public Behaviour Context => context;
 
             private readonly AsyncRoutinePromise routinePromise;
             private readonly Behaviour context;
