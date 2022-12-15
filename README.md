@@ -1,13 +1,13 @@
 # Async Routines
 This library provides a full C#-based replacement for Unity's built-in coroutines. It provides a number of vital features that Unity's coroutines do not, including:
 
-* Receive callbacks when coroutines complete or are canceled
-* Invoke coroutines on any Unity `Behaviour` class, not just `MonoBehaviour`.
-* Invoke static coroutines without a `Behaviour` at all
-* Pause coroutines when the invoking component gets disabled, rather than canceling them silently
-* Yield coroutines until addition update phases (`PostUpdate`, `PreRender`)
-* Run coroutines in the editor using the exact same logic used in play mode
-* Run coroutines in unit tests
+* Receive callbacks when routines complete or are canceled
+* Invoke routines on any Unity `Behaviour` class, not just `MonoBehaviour`.
+* Invoke static routines without a `Behaviour` at all
+* Pause routines when the invoking component gets disabled, rather than canceling them silently
+* Yield routines until additional update phases (`PostUpdate`, `PreRender`)
+* Run routines in the editor using the exact same logic used in play mode
+* Run routines in unit tests
 * One-line helper methods for delaying code until later in the frame
 * One-line helper methods for queuing a callback to be called at a fixed framerate (essentially allowing you to replace `Update()` and similar methods entirely!)
 
