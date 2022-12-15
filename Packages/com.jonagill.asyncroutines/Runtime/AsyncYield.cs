@@ -18,6 +18,27 @@ namespace AsyncRoutines
         public static IYieldInstruction NextEndOfFrame { get; } = new YieldNextFrame(UpdatePhase.EndOfFrame);
         public static IYieldInstruction NextPreRender { get; } = new YieldNextFrame(UpdatePhase.PreRender);
 
+        public static IYieldInstruction NextFrame(UpdatePhase updatePhase)
+        {
+            switch (updatePhase)
+            {
+                case UpdatePhase.Update:
+                    return NextUpdate;
+                case UpdatePhase.PostUpdate:
+                    return NextPostUpdate;
+                case UpdatePhase.FixedUpdate:
+                    return NextFixedUpdate;
+                case UpdatePhase.LateUpdate:
+                    return NextLateUpdate;
+                case UpdatePhase.PreRender:
+                    return NextPreRender;
+                case UpdatePhase.EndOfFrame:
+                    return NextEndOfFrame;
+                default:
+                    throw new ArgumentException();
+            }
+        }
+
         public static IYieldInstruction Wait(float seconds, UpdatePhase updatePhase = UpdatePhase.Update)
         {
             return new YieldForSeconds(seconds, updatePhase, false);
