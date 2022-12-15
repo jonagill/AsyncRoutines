@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 namespace AsyncRoutines
 {
-    public partial class AsyncRoutineRunner : IDisposable
+    public partial class AsyncRoutineRunner : IAsyncRoutineRunner
     {
         public static readonly AsyncRoutineRunner DefaultRunner = new AsyncRoutineRunner();
         private static readonly UpdatePhase[] UpdatePhases = (UpdatePhase[]) Enum.GetValues(typeof(UpdatePhase));

@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace AsyncRoutines
 {
-    public interface IAsyncRoutineRunner
+    public interface IAsyncRoutineRunner : IDisposable
     {
-        bool IsDestroyed { get; }
-        
         /// <summary>
         /// Starts an async routine with no context object. This routine will run until it completes,
         /// it is manually stopped, or the runner itself is destroyed.
@@ -24,6 +23,6 @@ namespace AsyncRoutines
         /// Immediately scan through all active routines and remove any routines that have had their host object destroyed.
         /// This can be called after destroying a large number of objects to clean up any dangling references and allow GC to run.
         /// </summary>
-        void CleanupImmediately();
+        void ClearExpiredRoutines();
     }
 }
