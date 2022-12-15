@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace AsyncRoutines
@@ -17,6 +18,19 @@ namespace AsyncRoutines
             Assert.IsNotNull(runner);
             _customRunner = runner;
         }
+        
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        private void Start()
+        {
+            var updaters = FindObjectsOfType<AsyncRoutineUpdater>().Where(u => u.isActiveAndEnabled);
+            if (updaters.Count() > 1)
+            {
+                Debug.LogError($"Multiple {nameof(AsyncRoutineUpdater)} components detected! " +
+                               $"This will cause your async routines to be invoked multiple times per frame in release builds.");
+                enabled = false;
+            }
+        }        
+#endif
 
         private void OnEnable()
         {
