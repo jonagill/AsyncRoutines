@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEditor;
 
 namespace AsyncRoutines
 {
@@ -13,7 +11,7 @@ namespace AsyncRoutines
         static EditorAsyncRoutineUpdater()
         {
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
-            if (!EditorApplication.isPlaying)
+            if (!EditorApplication.isPlayingOrWillChangePlaymode)
             {
                 Activate();
             }
@@ -71,24 +69,6 @@ namespace AsyncRoutines
             if (runner.Count > 0)
             {
                 EditorApplication.QueuePlayerLoopUpdate();
-            }
-        }
-
-        [MenuItem("Test/Async Routines/Run routine")]
-        private static void RunTestRoutine()
-        {
-            AsyncRoutineRunner.DefaultRunner.Run(CoroutineTest());
-        }
-        
-        static IEnumerator<IYieldInstruction> CoroutineTest()
-        {
-            float value = 0f;
-
-            while (true)
-            {
-                Debug.LogError(value);
-                yield return AsyncYield.Wait(.1f);
-                value += Random.value;
             }
         }
     }
