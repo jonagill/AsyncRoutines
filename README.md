@@ -77,16 +77,16 @@ All of these methods return an `IAsyncRoutinePromise` that represents the status
 
 To see if your routine is still running, check `routinePromise.IsPending`.
 
-To see if your promise completed successfully, check `routinePromise.HasSucceeded`.
+To see if your routine completed successfully, check `routinePromise.HasSucceeded`.
 
-To see if your promise threw an exception, check `routinePromise.HasException`.
+To see if your routine threw an exception, check `routinePromise.HasException`.
 
 To see if your routine has been canceled, check `routinePromise.IsCanceled`.
 
 To cancel your routine, call `routinePromise.Cancel()`.
 
 # Receiving callbacks
-As `IAsyncRoutinePromise` implemented the full promise API, you can also use the `Then()`, `Catch()`, `Canceled()` and `Finally()` methods to subscribe to callbacks for when your promise completes in various ways. For instance:
+As `IAsyncRoutinePromise` implements the full promise API, you can also use the `Then()`, `Catch()`, `Canceled()` and `Finally()` methods to subscribe to callbacks for when your promise completes in various ways. For instance:
 
 ```
 this.RunRoutine(MyRoutine())
@@ -105,7 +105,7 @@ In addition to `RunRoutine()`, the `AsyncRoutine` class provides a number of hel
 * `InvokeNextUpdate()`, `InvokeNextFixedUpdate()`, etc. queue a callback to be invoked in the next tick of the given phase of Unity's update loop.
 * `InvokeInUpdate()`, `InvokeInFixedUpdate()`, etc. queue a callback to be invoked in the given update phase after a certain number of seconds have passed.
 
-These functions are available statically via `AsyncRoutine` or through the extension methods on Behaviour, accessible by calling `this.QueueUpdate()` within a MonoBehaviour class. The extension methods will all pass in the given Behaviour as the context, causing the queued callback to be canceled automatically if your Behaviour gets destroyed.
+These functions are available statically via `AsyncRoutine` or through the extension methods on Behaviour, accessible by calling `this.InvokeX()` within a MonoBehaviour class. The extension methods will all pass in the given Behaviour as the context, causing the queued callback to be canceled automatically if your Behaviour gets destroyed.
 
 ## Queueing updates
 More interestingly, the `QueueUpdate()` family of functions can be used to queue a piece of code to be invoked repeatedly at a given frequency. 
