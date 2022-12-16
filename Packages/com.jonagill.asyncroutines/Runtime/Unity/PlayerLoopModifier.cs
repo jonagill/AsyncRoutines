@@ -71,7 +71,7 @@ public static class CustomUpdatePhases
         PlayerLoop.SetPlayerLoop(playerLoop);
         playerLoopModified = true;
 
-        // Uncomment to lop the modified player loop at startup
+        // Uncomment to log the modified player loop at startup
         //LogPlayerLoop(playerLoop);
     }
     
