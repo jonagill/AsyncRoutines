@@ -132,10 +132,6 @@ namespace AsyncRoutines
                     {
                         routinePromise.Complete();
                     }
-                    else
-                    {
-                        Debug.LogError($"Coroutine completed, but its promise is no longer pending: {this}");
-                    }
                 }
                 catch (Exception e)
                 {
