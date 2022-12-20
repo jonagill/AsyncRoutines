@@ -34,10 +34,11 @@ namespace AsyncRoutines
         /// <summary>
         /// Cancel the existing routine if one exists, then start a new routine
         /// </summary>
-        public static void RunSoloRoutine(ref IAsyncRoutinePromise routinePromise, IEnumerator<IYieldInstruction> routine)
+        public static IAsyncRoutinePromise RunSoloRoutine(ref IAsyncRoutinePromise routinePromise, IEnumerator<IYieldInstruction> routine)
         {
             routinePromise?.CancelIfPending();
             routinePromise = AsyncRoutineRunner.DefaultRunner.Run(null, routine);
+            return routinePromise;
         }
         
         #endregion

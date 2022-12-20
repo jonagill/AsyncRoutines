@@ -16,12 +16,12 @@ namespace AsyncRoutines
         /// <summary>
         /// Cancel the existing routine if one exists, then start a new routine
         /// </summary>
-        public static void RunSoloRoutine(
+        public static IAsyncRoutinePromise RunSoloRoutine(
             this Behaviour behaviour, 
             ref IAsyncRoutinePromise routinePromise,
             IEnumerator<IYieldInstruction> routine)
         {
-            AsyncRoutine.RunSoloRoutine(ref routinePromise, routine);
+            return AsyncRoutine.RunSoloRoutine(ref routinePromise, routine);
         }
         
         #endregion
