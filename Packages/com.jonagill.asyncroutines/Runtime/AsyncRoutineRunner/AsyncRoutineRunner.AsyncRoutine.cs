@@ -10,12 +10,12 @@ namespace AsyncRoutines
     {
         public interface IAsyncRoutine
         {
-            public string Name { get; }
-            public Behaviour Context { get; }
-            public IYieldInstruction CurrentYieldInstruction { get; }
-            public IAsyncRoutinePromise Promise { get; }
+            string Name { get; }
+            Behaviour Context { get; }
+            IYieldInstruction CurrentYieldInstruction { get; }
+            IAsyncRoutinePromise Promise { get; }
             
-            public void Cancel();
+            void Cancel();
         }
         
         private sealed class AsyncRoutine : IAsyncRoutine
