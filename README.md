@@ -22,8 +22,9 @@ Async Routines relies on my [Promises](https://github.com/jonagill/Promises) lib
 3. Click Save (or Apply)
 4. Open Window/Package Manager
 5. Click the + button
-6. Select `Add package by name...` or `Add package from git URL...`
-6. Click Add
+6. Select `Add package by name...` or `Add package from git URL...` 
+7. Enter 'com.jonagill.promises' and click Add
+8. Repeat steps 6 and 7 with 'com.jonagill.asyncroutines'
 
 # Setup
 Async routines require an instance of the `AsyncRoutineUpdater` component to exist in any scene where you want routines to get updated. You should generally add an instance of this component marked as `DontDestroyOnLoad` to your root scene or core systems prefab.
