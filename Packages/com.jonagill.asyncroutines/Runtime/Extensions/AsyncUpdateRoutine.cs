@@ -76,7 +76,7 @@ namespace AsyncRoutines
             }
             
 #if UNITY_EDITOR || DEBUG_BUILD
-            if (targetRateHz > Application.targetFrameRate)
+            if (targetRateHz > Application.targetFrameRate && Application.targetFrameRate > 0)
             {
                 Debug.LogWarning(
                     $"{nameof(AsyncUpdateRoutine)} created targeting an update rate of {targetRateHz}hz, which is higher than the current framerate of {Application.targetFrameRate} fps.");
