@@ -1,7 +1,7 @@
 {
   "name": "com.jonagill.asyncroutines",
   "description": "An efficient and feature-rich C# replacement for Unity's coroutine system.",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "unity": "2019.2",
   "displayName": "Async Routines",
   "dependencies": {

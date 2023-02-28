@@ -52,7 +52,7 @@ namespace AsyncRoutines
             this.updatePhase = updatePhase;
             this.targetRateHz = targetRateHz;
             this.randomizeStartTime = randomizeStartTime;
-            this.runner = runner ?? AsyncRoutineRunner.DefaultRunner;
+            this.runner = runner ?? AsyncRoutineRunner.CurrentOrDefaultRunner;
 
             QueueRoutine();
         }

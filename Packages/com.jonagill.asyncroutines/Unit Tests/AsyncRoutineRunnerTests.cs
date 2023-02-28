@@ -316,5 +316,32 @@ namespace AsyncRoutines.Tests
             Assert.IsTrue(routinePromise.HasSucceeded);
             Assert.AreEqual(0, runner.Count);
         }
+        
+        [Test]
+        public void SteppingRoutinesSetsCurrentRunner()
+        {
+            Assert.AreEqual( AsyncRoutineRunner.DefaultRunner, AsyncRoutineRunner.CurrentOrDefaultRunner );
+
+            AsyncRoutineRunner currentRunnerDuringRun = null;
+            AsyncRoutineRunner currentRunnerDuringStep = null;
+            IEnumerator<IYieldInstruction> CacheCurrentRunner()
+            {
+                currentRunnerDuringRun = AsyncRoutineRunner.CurrentOrDefaultRunner;
+                yield return AsyncYield.NextUpdate;
+                currentRunnerDuringStep = AsyncRoutineRunner.CurrentOrDefaultRunner;
+            }
+
+            runner.Run(CacheCurrentRunner());
+
+            Assert.AreEqual( runner, currentRunnerDuringRun );
+            Assert.IsNull( currentRunnerDuringStep );
+
+            runner.StepRoutines(UpdatePhase.Update);
+
+            Assert.AreEqual( runner, currentRunnerDuringRun );
+            Assert.AreEqual( runner, currentRunnerDuringStep );
+            
+            Assert.AreEqual( AsyncRoutineRunner.DefaultRunner, AsyncRoutineRunner.CurrentOrDefaultRunner );
+        }
     }
 }

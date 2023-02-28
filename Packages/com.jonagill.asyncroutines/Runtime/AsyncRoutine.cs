@@ -14,12 +14,12 @@ namespace AsyncRoutines
         
         public static IAsyncRoutinePromise RunRoutine(Behaviour behaviour, IEnumerator<IYieldInstruction> routine)
         {
-            return AsyncRoutineRunner.DefaultRunner.Run(behaviour, routine);
+            return AsyncRoutineRunner.CurrentOrDefaultRunner.Run(behaviour, routine);
         }
         
         public static IAsyncRoutinePromise RunRoutine(IEnumerator<IYieldInstruction> routine)
         {
-            return AsyncRoutineRunner.DefaultRunner.Run(null, routine);
+            return AsyncRoutineRunner.CurrentOrDefaultRunner.Run(null, routine);
         }
         
         /// <summary>
@@ -28,7 +28,7 @@ namespace AsyncRoutines
         public static IAsyncRoutinePromise RunSoloRoutine(ref IAsyncRoutinePromise routinePromise, Behaviour behaviour, IEnumerator<IYieldInstruction> routine)
         {
             routinePromise?.CancelIfPending();
-            routinePromise = AsyncRoutineRunner.DefaultRunner.Run(behaviour, routine);
+            routinePromise = AsyncRoutineRunner.CurrentOrDefaultRunner.Run(behaviour, routine);
             return routinePromise;
         }
         
@@ -38,7 +38,7 @@ namespace AsyncRoutines
         public static IAsyncRoutinePromise RunSoloRoutine(ref IAsyncRoutinePromise routinePromise, IEnumerator<IYieldInstruction> routine)
         {
             routinePromise?.CancelIfPending();
-            routinePromise = AsyncRoutineRunner.DefaultRunner.Run(null, routine);
+            routinePromise = AsyncRoutineRunner.CurrentOrDefaultRunner.Run(null, routine);
             return routinePromise;
         }
         
@@ -208,7 +208,7 @@ namespace AsyncRoutines
             UpdatePhase updatePhase)
         {
             Assert.IsNotNull(callback);
-            return AsyncRoutineRunner.DefaultRunner.Run(context, InvokeNextFrameRoutine(callback, updatePhase));
+            return AsyncRoutineRunner.CurrentOrDefaultRunner.Run(context, InvokeNextFrameRoutine(callback, updatePhase));
         }
         
         private static IEnumerator<IYieldInstruction> InvokeNextFrameRoutine(Action callback, UpdatePhase updatePhase)
@@ -306,7 +306,7 @@ namespace AsyncRoutines
             UpdatePhase updatePhase)
         {
             Assert.IsNotNull(callback);
-            return AsyncRoutineRunner.DefaultRunner.Run(context, InvokeAfterDelayRoutine(delay, callback, updatePhase));
+            return AsyncRoutineRunner.CurrentOrDefaultRunner.Run(context, InvokeAfterDelayRoutine(delay, callback, updatePhase));
         }
         
         private static IEnumerator<IYieldInstruction> InvokeAfterDelayRoutine(float delay, Action callback, UpdatePhase updatePhase)

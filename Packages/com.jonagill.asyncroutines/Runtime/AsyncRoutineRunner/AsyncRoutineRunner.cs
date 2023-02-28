@@ -3,16 +3,43 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
 namespace AsyncRoutines
 {
     public partial class AsyncRoutineRunner : IAsyncRoutineRunner
     {
+        private struct CurrentRunnerScope : IDisposable
+        {
+            private AsyncRoutineRunner runner;
+            public CurrentRunnerScope(AsyncRoutineRunner runner)
+            {
+                this.runner = runner;
+                CurrentRunnerStack.Push(runner);
+            }
+            
+            public void Dispose()
+            {
+                Assert.AreEqual(runner, CurrentRunnerStack.Peek());
+                CurrentRunnerStack.Pop();
+            }
+        }
+        
         internal static bool UnitTestsRunning = false;
         
         public static readonly UpdatePhase[] UpdatePhases = (UpdatePhase[]) Enum.GetValues(typeof(UpdatePhase));
         public static readonly AsyncRoutineRunner DefaultRunner = new AsyncRoutineRunner();
+        
+        /// <summary>
+        /// Stack containing any AsyncRoutineRunners that are currently stepping their own routines
+        /// </summary>
+        private static readonly Stack<AsyncRoutineRunner> CurrentRunnerStack = new Stack<AsyncRoutineRunner>();
+
+        /// <summary>
+        /// Returns the AsyncRoutineRunner currently stepping its routines or the default runner if no runner is currently stepping.
+        /// </summary>
+        public static AsyncRoutineRunner CurrentOrDefaultRunner => CurrentRunnerStack.Count > 0 ? CurrentRunnerStack.Peek() : DefaultRunner;
 
         private AsyncRoutineQueue[] queues;
         private bool isDisposed;
@@ -75,17 +102,20 @@ namespace AsyncRoutines
 
         public IAsyncRoutinePromise Run(Behaviour context, IEnumerator<IYieldInstruction> routine)
         {
-            var asyncRoutine = new AsyncRoutine(context, routine);
-            var firstYield = asyncRoutine.Step();
-
-            if (firstYield != null)
+            using (new CurrentRunnerScope(this))
             {
-                GetQueueForPhase(firstYield.UpdatePhase).InsertRoutine(asyncRoutine);
-            }
-            
-            OnRoutineStarted?.Invoke();
+                var asyncRoutine = new AsyncRoutine(context, routine);
+                var firstYield = asyncRoutine.Step();
 
-            return asyncRoutine.Promise;
+                if (firstYield != null)
+                {
+                    GetQueueForPhase(firstYield.UpdatePhase).InsertRoutine(asyncRoutine);
+                }
+
+                OnRoutineStarted?.Invoke();
+
+                return asyncRoutine.Promise;
+            }
         }
 
         /// <summary>
@@ -94,9 +124,12 @@ namespace AsyncRoutines
         /// </summary>
         public void StepRoutines(UpdatePhase updatePhase)
         {
-            var queue = GetQueueForPhase(updatePhase);
-            queue.Step();
-            FlushQueuedRoutines(queue);
+            using (new CurrentRunnerScope(this))
+            {
+                var queue = GetQueueForPhase( updatePhase );
+                queue.Step();
+                FlushQueuedRoutines( queue );
+            }
         }
 
         /// <summary>
@@ -106,19 +139,25 @@ namespace AsyncRoutines
         /// </summary>
         public void ClearExpiredRoutines()
         {
-            foreach (var queue in queues)
+            using (new CurrentRunnerScope(this))
             {
-                queue.ClearExpiredCoroutines();
+                foreach (var queue in queues)
+                {
+                    queue.ClearExpiredCoroutines();
+                }
             }
         }
 
         public void ClearAllRoutines()
         {
-            for (var i = 0; i < UpdatePhases.Length; i++)
+            using (new CurrentRunnerScope(this))
             {
-                // Destroy the previous queues and build new ones
-                queues[i].Dispose();
-                queues[i] = new AsyncRoutineQueue(UpdatePhases[i]);
+                for (var i = 0; i < UpdatePhases.Length; i++)
+                {
+                    // Destroy the previous queues and build new ones
+                    queues[i].Dispose();
+                    queues[i] = new AsyncRoutineQueue(UpdatePhases[i]);
+                }
             }
         }
 
