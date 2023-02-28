@@ -21,7 +21,7 @@ namespace AsyncRoutines
             ref IAsyncRoutinePromise routinePromise,
             IEnumerator<IYieldInstruction> routine)
         {
-            return AsyncRoutine.RunSoloRoutine(ref routinePromise, routine);
+            return AsyncRoutine.RunSoloRoutine(ref routinePromise, behaviour, routine);
         }
         
         #endregion
