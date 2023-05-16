@@ -35,14 +35,14 @@ namespace AsyncRoutines
         private void OnEnable()
         {
             CustomUpdatePhases.PostUpdatePhase.OnPostUpdate += OnPostUpdate;
-            CustomUpdatePhases.PreRenderPhase.OnPreRender += OnPreRender;
+            CustomUpdatePhases.PreRenderPhase.OnPreRender += OnPreRenderUpdate;
             CustomUpdatePhases.EndOfFramePhase.OnEndOfFrame += OnEndOfFrame;
         }
 
         private void OnDisable()
         {
             CustomUpdatePhases.PostUpdatePhase.OnPostUpdate -= OnPostUpdate;
-            CustomUpdatePhases.PreRenderPhase.OnPreRender -= OnPreRender;   
+            CustomUpdatePhases.PreRenderPhase.OnPreRender -= OnPreRenderUpdate;   
             CustomUpdatePhases.EndOfFramePhase.OnEndOfFrame -= OnEndOfFrame;
         }
 
@@ -66,7 +66,9 @@ namespace AsyncRoutines
             Runner.StepRoutines(UpdatePhase.LateUpdate);
         }
 
-        private void OnPreRender()
+        // NOTE: Not called OnPreRender() so we don't get automatically invoked as a MonoBehaviour function
+        // in projects without SRP installed.
+        private void OnPreRenderUpdate()
         {
             Runner.StepRoutines(UpdatePhase.PreRender);
         }
