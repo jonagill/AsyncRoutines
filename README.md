@@ -166,7 +166,7 @@ public bool IsJumping
     }
 }
 
-public void UpdateJump() 
+public void UpdateJump(float deltaTime) 
 {
     // Run jump logic
 }
