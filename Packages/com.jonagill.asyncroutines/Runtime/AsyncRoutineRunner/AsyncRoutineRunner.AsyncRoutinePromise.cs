@@ -12,7 +12,7 @@ namespace AsyncRoutines
             public float DeferPollUntilRealTime => 0.0f;
 
             public bool Poll() => !IsPending;
-            public void Dispose() => Cancel();
+            public void Dispose() => CancelIfPending();
         }
     }
 }
