@@ -129,7 +129,7 @@ namespace AsyncRoutines
         {
             if (routine != null)
             {
-                routine.Cancel();
+                routine.CancelIfPending();
                 routine = null;
             }
         }
