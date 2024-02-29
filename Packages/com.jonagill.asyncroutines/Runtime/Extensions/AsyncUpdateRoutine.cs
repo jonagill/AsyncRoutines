@@ -75,7 +75,7 @@ namespace AsyncRoutines
                 yield = new YieldNextFrame(updatePhase);
             }
             
-#if UNITY_EDITOR || DEBUG_BUILD
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             if (targetRateHz > Application.targetFrameRate && Application.targetFrameRate > 0)
             {
                 Debug.LogWarning(
@@ -90,7 +90,7 @@ namespace AsyncRoutines
             while (true)
             {
                 yield return yield;
-#if UNITY_EDITOR || DEBUG_BUILD
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
                 Profiler.BeginSample(profilerTag);
                 try
 #endif
@@ -100,7 +100,7 @@ namespace AsyncRoutines
                     updateCallback(deltaTime);
                     lastUpdateTime = timeNow;
                 }
-#if UNITY_EDITOR || DEBUG_BUILD
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
                 finally
                 {
 
